@@ -5,18 +5,14 @@ import { App } from 'components/App/App';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './constants/theme';
 import { Provider } from 'react-redux';
-import { store, persistor } from './redux/store';
-
-import { PersistGate } from 'redux-persist/integration/react';
+import { store } from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </PersistGate>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

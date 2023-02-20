@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { getContacts } from 'redux/selectors';
 
 export function Form() {
@@ -12,6 +12,7 @@ export function Form() {
   const [number, setNumber] = useState('');
 
   const contacts = useSelector(getContacts);
+  const stringifiedContacts = JSON.stringify(contacts);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -30,14 +31,6 @@ export function Form() {
     }
   };
 
-  // useEffect(() => {
-  //   window.localStorage.setItem('name', JSON.stringify(name));
-  // }, [name]);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('number', JSON.stringify(number));
-  // }, [number]);
-
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
@@ -48,9 +41,9 @@ export function Form() {
       number: number,
     };
 
-    // if (contacts.some(contact => contact.name.toLowerCase() === data.name.toLowerCase())) {
-    //   return alert(`${data.name} is already in contacts`);
-    // }
+    if (contacts.some(contact => contact.name.toLowerCase() === data.name.toLowerCase())) {
+      return alert(`${data.name} is already in contacts`);
+    }
 
     dispatch(addContact(data));
 

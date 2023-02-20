@@ -1,39 +1,51 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
-// { id: '1', name: 'Alex', number: '12313123' }
-const contactsInitialState = [
-  { id: '0', name: 'Spam', number: '123213' },
-  { id: '1', name: 'Bran', number: '123213' },
-];
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from './operations';
+
+const handlePending = state => (state.isLoading = true);
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 export const contactsSlice = createSlice({
   // Ім'я слайсу
   name: 'contacts',
   // Початковий стан редюсера слайсу
-  initialState: { myContacts: contactsInitialState },
+  initialState: {
+    myContacts: [],
+    isLoading: false,
+    error: null,
+  },
   // Об'єкт редюсерів
-  reducers: {
-    addContact: {
-      reducer(state, { payload }) {
-        state.myContacts.push(payload);
-      },
-      prepare({ name, number }) {
-        return {
-          payload: {
-            id: nanoid(),
-            name: name,
-            number: number,
-          },
-        };
-      },
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [addContact.pending]: handlePending,
+    [deleteContact.pending]: handlePending,
+    [fetchContacts.rejected]: handleRejected,
+    [addContact.rejected]: handleRejected,
+    [deleteContact.rejected]: handleRejected,
+
+    [fetchContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.myContacts = action.payload;
     },
-    deleteContact(state, action) {
-      const index = state.myContacts.findIndex(contact => contact.id === action.payload);
+
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.myContacts.push(action.payload);
+    },
+
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const index = state.myContacts.findIndex(contact => contact.id === action.payload.id);
+
       state.myContacts.splice(index, 1);
     },
   },
 });
 
-// Генератори екшенів
-export const { addContact, deleteContact } = contactsSlice.actions;
-// Редюсер слайсу
 export const contactsReducer = contactsSlice.reducer;
