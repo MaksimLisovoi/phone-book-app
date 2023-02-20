@@ -24,26 +24,25 @@ export const Contacts = () => {
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
 
-    return (
-      myContacts.length > 0 &&
-      myContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
-    );
+    if (myContacts.length > 0) {
+      return myContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+    }
   };
   const filteredContacts = getVisibleContacts();
 
   return (
-    // <h1>Hi</h1>
     <>
       {checkRequest && <b>Request in progress...</b>}
       <ul>
-        {filteredContacts.map(({ name, number, id }) => (
-          <ContactItem key={name}>
-            <Text>
-              {name}: {number}
-            </Text>
-            <Btn onClick={() => dispatch(deleteContact(id))}>Delete</Btn>
-          </ContactItem>
-        ))}
+        {filteredContacts &&
+          filteredContacts.map(({ name, number, id }) => (
+            <ContactItem key={name}>
+              <Text>
+                {name}: {number}
+              </Text>
+              <Btn onClick={() => dispatch(deleteContact(id))}>Delete</Btn>
+            </ContactItem>
+          ))}
       </ul>
     </>
   );
