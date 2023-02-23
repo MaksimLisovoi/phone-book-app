@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FormBox, Label, Input, Btn } from './Form.styled';
 import { nanoid } from 'nanoid';
 
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+
+import toast, { Toaster } from 'react-hot-toast';
+import { useAddContactMutation, useGetAllContactsQuery } from 'redux/contactsSlice';
+import { Spinner } from 'components/Spinner/Spinner';
 
 export function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(selectContacts);
+  const { data: contacts } = useGetAllContactsQuery();
+
+  const [addContact, { isLoading }] = useAddContactMutation();
+
+  // const contacts = useSelector(selectContacts);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -30,9 +35,7 @@ export function Form() {
     }
   };
 
-  const dispatch = useDispatch();
-
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const data = {
@@ -44,7 +47,12 @@ export function Form() {
       return alert(`${data.name} is already in contacts`);
     }
 
-    dispatch(addContact(data));
+    try {
+      await addContact(data);
+      toast.success('Контакт добавлен');
+    } catch (error) {
+      toast.error('Ошибка при добавлении контакта');
+    }
 
     reset();
   };
@@ -85,7 +93,8 @@ export function Form() {
           required
         />
       </Label>
-      <Btn type="submit">Add contact</Btn>
+      <Btn type="submit">{isLoading && <Spinner />} Add contact</Btn>
+      <Toaster />
     </FormBox>
   );
 }

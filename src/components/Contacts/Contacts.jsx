@@ -1,47 +1,35 @@
-import { ContactItem, Btn, Text } from './Contacts.styled';
-
 import PropTypes, { object } from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsLoading, selectError, selectVisibleContacts } from 'redux/selectors';
-import { useEffect } from 'react';
-import { fetchContacts, deleteContact } from 'redux/operations';
+import { useGetAllContactsQuery } from 'redux/contactsSlice';
+import { selectFilter } from 'redux/selectors';
+import { useSelector } from 'react-redux';
+import { ContactItem } from '../ContactItem';
 
 export const Contacts = () => {
-  const dispatch = useDispatch();
+  const { data: contacts, isLoading, error } = useGetAllContactsQuery();
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  const filterValue = useSelector(selectFilter);
 
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const filteredContacts = useSelector(selectVisibleContacts);
+  const getVisibleContacts = () => {
+    const normalizedFilter = filterValue.toLowerCase();
+
+    if (contacts && contacts.length > 0) {
+      return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+    }
+  };
+  const filteredContacts = getVisibleContacts();
   const checkRequest = isLoading && !error;
-
-  // const getVisibleContacts = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-
-  //   if (myContacts.length > 0) {
-  //     return myContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
-  //   }
-  // };
-  // const filteredContacts = getVisibleContacts();
 
   return (
     <>
-      {checkRequest && <b>Request in progress...</b>}
-      <ul>
-        {filteredContacts &&
-          filteredContacts.map(({ name, number, id }) => (
-            <ContactItem key={name}>
-              <Text>
-                {name}: {number}
-              </Text>
-              <Btn onClick={() => dispatch(deleteContact(id))}>Delete</Btn>
-            </ContactItem>
-          ))}
-      </ul>
+      {checkRequest ? (
+        <b>Request in progress...</b>
+      ) : (
+        <ul>
+          {filteredContacts &&
+            filteredContacts.map(contact => <ContactItem key={contact.id} contact={contact} />)}
+        </ul>
+      )}
     </>
   );
 };
