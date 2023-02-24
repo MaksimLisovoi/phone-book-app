@@ -25,13 +25,25 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contact'],
     }),
+    toggleFavorite: builder.mutation({
+      query: payload => {
+        console.log(payload);
+        const { contactId, isFavorite } = payload;
+        return { url: `/contacts/${contactId}`, method: 'PATCH', body: isFavorite };
+      },
+      invalidatesTags: ['Contact'],
+    }),
   }),
 });
 
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllContactsQuery, useAddContactMutation, useDeleteContactMutation } =
-  contactsApi;
+export const {
+  useGetAllContactsQuery,
+  useAddContactMutation,
+  useDeleteContactMutation,
+  useToggleFavoriteMutation,
+} = contactsApi;
 
 // import { createSlice } from '@reduxjs/toolkit';
 // import { fetchContacts, addContact, deleteContact } from './operations';

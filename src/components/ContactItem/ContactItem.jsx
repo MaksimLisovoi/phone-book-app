@@ -1,12 +1,13 @@
-import { ContactListItem, Btn, Text, BtnText } from './ContactItem.styled';
+import { ContactListItem, Btn, Text } from './ContactItem.styled';
 
-import { useDeleteContactMutation } from 'redux/contactsSlice';
-import { RotatingLines } from 'react-loader-spinner';
+import { useDeleteContactMutation, useToggleFavoriteMutation } from 'redux/contactsSlice';
+
 import { Spinner } from 'components/Spinner/Spinner';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
-export const ContactItem = ({ contact }) => {
+export const ContactItem = ({ name, number, id }) => {
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
+  const [toggleFavorite, result] = useToggleFavoriteMutation();
 
   const handleDelete = async contactId => {
     try {
@@ -17,12 +18,19 @@ export const ContactItem = ({ contact }) => {
     }
   };
 
+  //   const toggleIsFavorite = async () => {
+  //     try {
+  //       await toggleFavorite({ contactId: id, isFavorite: true });
+  //     } catch (error) {}
+  //   };
+
   return (
     <ContactListItem>
       <Text>
-        {contact.name}: {contact.number}
+        {name}: {number}
       </Text>
-      <Btn disabled={isLoading} onClick={() => handleDelete(contact.id)}>
+      {/* <Btn onClick={toggleIsFavorite}>Favorite</Btn> */}
+      <Btn disabled={isLoading} onClick={() => handleDelete(id)}>
         {isLoading && <Spinner />}
         Delete
       </Btn>

@@ -27,7 +27,7 @@ export const Contacts = () => {
       ) : (
         <ul>
           {filteredContacts &&
-            filteredContacts.map(contact => <ContactItem key={contact.id} contact={contact} />)}
+            filteredContacts.map(contact => <ContactItem key={contact.id} {...contact} />)}
         </ul>
       )}
     </>
