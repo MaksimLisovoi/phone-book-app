@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
 import toast, { Toaster } from 'react-hot-toast';
-import { useAddContactMutation, useGetAllContactsQuery } from 'redux/contactsSlice';
+import { useAddContactMutation, useGetAllContactsQuery } from 'redux/contacts/contactsSlice';
 import { Spinner } from 'components/Spinner/Spinner';
 
 export function Form() {

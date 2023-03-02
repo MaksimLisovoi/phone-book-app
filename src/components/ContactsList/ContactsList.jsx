@@ -1,11 +1,11 @@
 import PropTypes, { object } from 'prop-types';
 
-import { useGetAllContactsQuery } from 'redux/contactsSlice';
+import { useGetAllContactsQuery } from 'redux/contacts/contactsSlice';
 import { selectFilter } from 'redux/selectors';
 import { useSelector } from 'react-redux';
 import { ContactItem } from '../ContactItem';
 
-export const Contacts = () => {
+export const ContactsList = () => {
   const { data: contacts, isLoading, error } = useGetAllContactsQuery();
 
   const filterValue = useSelector(selectFilter);
@@ -34,6 +34,6 @@ export const Contacts = () => {
   );
 };
 
-Contacts.propTypes = {
+ContactsList.propTypes = {
   contacts: PropTypes.arrayOf(object),
 };

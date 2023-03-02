@@ -1,21 +1,19 @@
-import { Box } from '../Box';
-import { Form } from 'components/Form';
-import { Heading } from './App.styled';
-import { Contacts } from 'components/Contacts';
-import { Filter } from 'components/Filter';
+import { Layout } from 'components/Layout/Layout';
+import { Contacts } from 'pages/Contacts';
+import Home from 'pages/Home';
+import { Login } from 'pages/Login';
+import { Register } from 'pages/Register';
+import { Route, Routes } from 'react-router-dom';
 
 export function App() {
   return (
-    <Box mx="auto" maxWidth={450} p={'5'}>
-      <Box border="normal" borderRadius={'normal'} p={5} mb={4}>
-        <Heading>Phonebook</Heading>
-        <Form />
-      </Box>
-      <Box border="normal" borderRadius={'normal'} p={5}>
-        <Heading>Contacts</Heading>
-        <Filter />
-        <Contacts />
-      </Box>
-    </Box>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="contacts" element={<Contacts />} />
+      </Route>
+    </Routes>
   );
 }

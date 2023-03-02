@@ -1,6 +1,6 @@
 import { ContactListItem, Btn, Text } from './ContactItem.styled';
 
-import { useDeleteContactMutation, useToggleFavoriteMutation } from 'redux/contactsSlice';
+import { useDeleteContactMutation, useToggleFavoriteMutation } from 'redux/contacts/contactsSlice';
 
 import { Spinner } from 'components/Spinner/Spinner';
 import toast from 'react-hot-toast';

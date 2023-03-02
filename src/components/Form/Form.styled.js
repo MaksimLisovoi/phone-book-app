@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 
 export const FormBox = styled.form`
   margin-bottom: ${p => p.theme.space[4]};
