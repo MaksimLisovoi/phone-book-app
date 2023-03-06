@@ -1,4 +1,5 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// import { createApi, fetchBaseQuery } from '@rtk-incubator/rtk-query';
 import axios from 'axios';
 // 'https://63f367e2fe3b595e2ee12a2a.mockapi.io';
 // 'https://connections-api.herokuapp.com'
@@ -30,6 +31,8 @@ export const contactsApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: 'https://connections-api.herokuapp.com',
   }),
+  refetchOnMountOrArgChange: true,
+  // baseQuery: fetchBaseQuery('https://connections-api.herokuapp.com'),
   tagTypes: ['Contact'],
   endpoints: builder => ({
     getAllContacts: builder.query({
