@@ -1,21 +1,46 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
 // 'https://63f367e2fe3b595e2ee12a2a.mockapi.io';
 // 'https://connections-api.herokuapp.com'
 // Define a service using a base URL and expected endpoints
+
+const axiosBaseQuery =
+  ({ baseUrl } = { baseUrl: '' }) =>
+  async ({ url, method, data, params }) => {
+    try {
+      const result = await axios({ url: baseUrl + url, method, data, params });
+      return { data: result.data };
+    } catch (axiosError) {
+      let err = axiosError;
+      return {
+        error: {
+          status: err.response?.status,
+          data: err.response?.data || err.message,
+        },
+      };
+    }
+  };
+
+// baseQuery: axiosBaseQuery({
+//   baseUrl: 'https://connections-api.herokuapp.com',
+// });
+
 export const contactsApi = createApi({
   reducerPath: 'contacts',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://connections-api.herokuapp.com' }),
+  baseQuery: axiosBaseQuery({
+    baseUrl: 'https://connections-api.herokuapp.com',
+  }),
   tagTypes: ['Contact'],
   endpoints: builder => ({
     getAllContacts: builder.query({
-      query: () => '/contacts',
+      query: () => ({ url: '/contacts', method: 'get' }),
       providesTags: ['Contact'],
     }),
     addContact: builder.mutation({
       query: data => ({
         url: '/contacts',
-        method: 'POST',
-        body: data,
+        method: 'post',
+        data,
       }),
       invalidatesTags: ['Contact'],
     }),
@@ -30,7 +55,7 @@ export const contactsApi = createApi({
       query: payload => {
         console.log(payload);
         const { contactId, isFavorite } = payload;
-        return { url: `/contacts/${contactId}`, method: 'PATCH', body: isFavorite };
+        return { url: `/contacts/${contactId}`, method: 'PATCH', isFavorite };
       },
       invalidatesTags: ['Contact'],
     }),
