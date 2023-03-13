@@ -1,9 +1,10 @@
 import { LoginForm } from 'components/LoginForm';
-
-export const Login = () => {
+import Container from '@mui/material/Container';
+import { BaseContainer } from './Base.styled';
+export default function Login() {
   return (
-    <div>
+    <BaseContainer component="main" maxWidth="xs" sx={{ paddingTop: 8 }}>
       <LoginForm />
-    </div>
+    </BaseContainer>
   );
-};
+}

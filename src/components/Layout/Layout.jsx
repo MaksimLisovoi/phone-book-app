@@ -1,15 +1,20 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppBar } from '../AppBar';
-import { Box } from '../Box';
+
+import { Container } from './Layout.styled';
+import { Footer } from 'components/Footer';
 
 export const Layout = () => {
   return (
-    <Box maxWidth="960px" margin="0 auto" padding="0 16px">
-      <AppBar />
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
-    </Box>
+    <>
+      <Container>
+        <AppBar />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+        <Footer></Footer>
+      </Container>
+    </>
   );
 };

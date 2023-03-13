@@ -1,26 +1,16 @@
-const styles = {
-  container: {
-    minHeight: 'calc(100vh - 50px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontWeight: 500,
-    fontSize: 48,
-    textAlign: 'center',
-  },
-};
+import { Typography } from '@mui/material';
+import { BaseContainer } from './Base.styled';
+import Container from '@mui/material/Container';
 
 export default function Home() {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>
+    <BaseContainer component="main" sx={{ paddingTop: 8, display: 'flex' }}>
+      <Typography variant="h4" component="h1" fontWeight={500}>
         Phone Book welcome page
         <span role="img" aria-label="Greeting icon">
           💁‍♀️
         </span>
-      </h1>
-    </div>
+      </Typography>
+    </BaseContainer>
   );
 }

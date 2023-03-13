@@ -1,13 +1,13 @@
-import { ContactListItem, Btn, Text } from './ContactItem.styled';
+import { ContactListItem } from './ContactItem.styled';
 
-import { useDeleteContactMutation, useToggleFavoriteMutation } from 'redux/contacts/contactsSlice';
-
+import { useDeleteContactMutation } from 'redux/contacts/contactsSlice';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Spinner } from 'components/Spinner/Spinner';
 import toast from 'react-hot-toast';
+import Typography from '@mui/material/Typography';
 
 export const ContactItem = ({ name, number, id }) => {
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
-  const [toggleFavorite, result] = useToggleFavoriteMutation();
 
   const handleDelete = async contactId => {
     try {
@@ -18,22 +18,21 @@ export const ContactItem = ({ name, number, id }) => {
     }
   };
 
-  //   const toggleIsFavorite = async () => {
-  //     try {
-  //       await toggleFavorite({ contactId: id, isFavorite: true });
-  //     } catch (error) {}
-  //   };
-
   return (
     <ContactListItem>
-      <Text>
+      <Typography>
         {name}: {number}
-      </Text>
-      {/* <Btn onClick={toggleIsFavorite}>Favorite</Btn> */}
-      <Btn disabled={isLoading} onClick={() => handleDelete(id)}>
-        {isLoading && <Spinner />}
+      </Typography>
+
+      <LoadingButton
+        onClick={() => handleDelete(id)}
+        loading={isLoading}
+        // loadingIndicator="Loading…"
+        variant="outlined"
+        size="small"
+      >
         Delete
-      </Btn>
+      </LoadingButton>
     </ContactListItem>
   );
 };

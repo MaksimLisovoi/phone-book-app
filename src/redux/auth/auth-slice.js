@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { createSlice } from '@reduxjs/toolkit';
 import authOperations from './auth-operations';
 

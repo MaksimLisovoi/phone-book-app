@@ -4,16 +4,20 @@ import { useGetAllContactsQuery } from 'redux/contacts/contactsSlice';
 import { selectFilter } from 'redux/selectors';
 import { useSelector } from 'react-redux';
 import { ContactItem } from '../ContactItem';
+import { Typography } from '@mui/material';
+import { Filter } from 'components/Filter';
 
 export const ContactsList = () => {
   const { data: contacts, isLoading, error } = useGetAllContactsQuery();
 
   const filterValue = useSelector(selectFilter);
 
+  const checkContacts = contacts && contacts.length > 0;
+
   const getVisibleContacts = () => {
     const normalizedFilter = filterValue.toLowerCase();
 
-    if (contacts && contacts.length > 0) {
+    if (checkContacts) {
       return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
     }
   };
@@ -22,12 +26,16 @@ export const ContactsList = () => {
 
   return (
     <>
+      <Filter checkContacts={checkContacts} />
       {checkRequest ? (
         <b>Request in progress...</b>
       ) : (
         <ul>
-          {filteredContacts &&
-            filteredContacts.map(contact => <ContactItem key={contact.id} {...contact} />)}
+          {filteredContacts ? (
+            filteredContacts.map(contact => <ContactItem key={contact.id} {...contact} />)
+          ) : (
+            <Typography fontWeight={500}>There are no contacts in your Phonebook!</Typography>
+          )}
         </ul>
       )}
     </>

@@ -1,21 +1,46 @@
 import { Box } from 'components/Box';
-import { Form } from 'components/Form';
-import { Heading } from '../components/App/App.styled';
+
 import { ContactsList } from 'components/ContactsList';
 import { Filter } from 'components/Filter';
+import { Button, Container } from '@mui/material';
+import { useState } from 'react';
+import { ContactFormModal } from 'components/ContactFormModal';
+import { Toaster } from 'react-hot-toast';
+import { GlobalStyle } from 'components/GlobalStyle';
+import Typography from '@mui/material/Typography';
+import { BaseContainer } from './Base.styled';
 
-export const Contacts = () => {
+export default function Contacts() {
+  const [isModalOpen, setisModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setisModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setisModalOpen(false);
+  };
+
   return (
-    <Box mx="auto" maxWidth={450} p={'5'}>
-      <Box border="normal" borderRadius={'normal'} p={5} mb={4}>
-        <Heading>Phonebook</Heading>
-        <Form />
-      </Box>
-      <Box border="normal" borderRadius={'normal'} p={5}>
-        <Heading>Contacts</Heading>
-        <Filter />
+    <BaseContainer component="main">
+      {isModalOpen && (
+        <>
+          <ContactFormModal isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} />
+        </>
+      )}
+
+      <Box p={5}>
+        <GlobalStyle />
+        <Typography variant="h5" fontSize={28} mb={2}>
+          My contacts
+        </Typography>
+        {/* <Filter /> */}
+        <Button onClick={handleOpenModal} variant="contained" sx={{ mb: 2 }}>
+          Add Contact
+        </Button>
         <ContactsList />
       </Box>
-    </Box>
+      <Toaster />
+    </BaseContainer>
   );
-};
+}
