@@ -80,6 +80,9 @@ export function ContactsForm({ handleCloseModal }) {
         }}
       >
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Typography fontSize={24} align="center">
+            Add contact
+          </Typography>
           <TextField
             margin="normal"
             required

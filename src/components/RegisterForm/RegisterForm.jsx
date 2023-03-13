@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import authOperations from 'redux/auth/auth-operations';
 
 import * as React from 'react';
@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 
 export function RegisterForm() {
   const dispatch = useDispatch();
+
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -90,6 +91,7 @@ export function RegisterForm() {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign Up
           </Button>
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/login" variant="body2">
@@ -99,7 +101,6 @@ export function RegisterForm() {
           </Grid>
         </Box>
       </Box>
-      {/* <Copyright sx={{ mt: 5 }} text="  Phone Book App" /> */}
     </>
   );
 }
