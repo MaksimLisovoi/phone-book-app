@@ -1,9 +1,6 @@
 import { Layout } from 'components/Layout/Layout';
 import { useAuth } from 'hooks';
-// import { Contacts } from 'pages/Contacts';
-// import Home from 'pages/Home';
-// import { Login } from 'pages/Login';
-// import { Register } from 'pages/Register';
+
 import { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
