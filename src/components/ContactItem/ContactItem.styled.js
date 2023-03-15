@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 
-export const ContactItem = styled.li`
+export const ContactListItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,9 +23,17 @@ export const Btn = styled.button`
   cursor: pointer;
   transition: background-color 200ms ease-in-out;
 
+  &:disabled {
+    background-color: ${p => p.theme.colors.lightgray};
+  }
+
   &:hover {
     background-color: ${p => p.theme.colors.secondary};
   }
+`;
+
+export const BtnText = styled.p`
+  margin-left: 5px;
 `;
 
 export const Text = styled.p``;

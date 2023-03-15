@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from 'styled-components';
 
 export const LabelText = styled.p`
   margin-right: ${p => p.theme.space[3]};

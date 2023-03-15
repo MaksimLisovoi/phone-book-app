@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { filterReducer } from './filterSlice';
-import { contactsReducer } from './contactsSlice';
+import { authSlice } from './auth/auth-slice';
+
+import { contactsApi } from './contacts/contactsSlice';
 
 import {
   persistStore,
@@ -15,24 +17,27 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const persistContactsConfig = {
-  key: 'contacts',
+const authPersistConfig = {
+  key: 'auth',
   storage,
+  whitelist: ['token'],
 };
-
-const persistedContactsReducer = persistReducer(persistContactsConfig, contactsReducer);
 
 export const store = configureStore({
   reducer: {
-    contacts: persistedContactsReducer,
+    // contacts: contactsReducer,
+    auth: persistReducer(authPersistConfig, authSlice.reducer),
+    [contactsApi.reducerPath]: contactsApi.reducer,
     filter: filterReducer,
   },
+  // Adding the api middleware enables caching, invalidation, polling,
+  // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(contactsApi.middleware),
 });
 
 export const persistor = persistStore(store);
