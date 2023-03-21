@@ -14,41 +14,25 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-export function ContactsForm({ handleCloseModal }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+import { useForm, Controller, useFormState } from 'react-hook-form';
+import { nameValidation, numberValidation } from './validation';
 
+export function ContactsForm({ handleCloseModal }) {
   const { data: contacts } = useGetAllContactsQuery();
 
   const [addContact, { isLoading }] = useAddContactMutation();
 
   // const contacts = useSelector(selectContacts);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      name: '',
+      number: '',
+    },
+  });
+  const { errors } = useFormState({ control });
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        return;
-    }
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    const data = {
-      name: name,
-      number: number,
-    };
-
+  const myHandleSubmit = async data => {
     if (contacts.some(contact => contact.name.toLowerCase() === data.name.toLowerCase())) {
       return alert(`${data.name} is already in contacts`);
     }
@@ -60,13 +44,6 @@ export function ContactsForm({ handleCloseModal }) {
     } catch (error) {
       toast.error('Ошибка при добавлении контакта');
     }
-
-    reset();
-  };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
   };
 
   return (
@@ -79,11 +56,51 @@ export function ContactsForm({ handleCloseModal }) {
           alignItems: 'center',
         }}
       >
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(myHandleSubmit)} sx={{ mt: 1 }}>
           <Typography fontSize={24} align="center">
             Add contact
           </Typography>
-          <TextField
+          <Controller
+            rules={nameValidation}
+            control={control}
+            name="name"
+            render={({ field }) => (
+              <TextField
+                margin="normal"
+                fullWidth
+                required
+                onChange={e => field.onChange(e)}
+                type="name"
+                name="name"
+                label="Name"
+                value={field.value}
+                helperText={errors.name?.message}
+                error={!!errors.name?.message}
+              />
+            )}
+          />
+          <Controller
+            rules={numberValidation}
+            control={control}
+            name="number"
+            render={({ field }) => (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={e => field.onChange(e)}
+                type="tel"
+                name="number"
+                label="Phone number"
+                pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+                value={field.value}
+                helperText={errors.number?.message}
+                error={!!errors.number?.message}
+              />
+            )}
+          />
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -95,8 +112,8 @@ export function ContactsForm({ handleCloseModal }) {
             value={name}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          />
-          <TextField
+          /> */}
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -107,7 +124,7 @@ export function ContactsForm({ handleCloseModal }) {
             value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          />
+          /> */}
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             {isLoading && <Spinner />}
