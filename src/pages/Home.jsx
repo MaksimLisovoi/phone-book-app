@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import { BaseContainer } from './Base.styled';
-import Container from '@mui/material/Container';
 
 export default function Home() {
   return (
