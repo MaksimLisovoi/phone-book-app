@@ -1,6 +1,5 @@
 {
   "name": "phone-book-app",
-  "homepage": "https://maksimlisovoi.github.io/phone-book-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
