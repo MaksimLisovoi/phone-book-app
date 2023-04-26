@@ -1,6 +1,6 @@
 ![Banner](./bannner-phone-book.jpg)
 
-Phone book application allows you kepp all your contacts in one place.
+Phone book application allows you to store all your contacts in one place.
 
 ## Tecnologies
 
