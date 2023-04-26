@@ -4,6 +4,6 @@ Phone book app - is a simple application, that allows you to store all your cont
 
 ## Tecnologies
 
-This app was develop on Create react app, Redux toolkit, RTK query and Material UI for styles. 
+This app was developed on Create react app, Redux toolkit, RTK query and Material UI for styles. 
 Backend - Node Js. 
 
