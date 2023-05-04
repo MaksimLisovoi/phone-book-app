@@ -1,6 +1,6 @@
 ![Banner](./bannner-phone-book.jpg)
 
-Phone book app - is a simple application, that allows you to store all your contacts in one place.
+Phone book app - is a simple web application, that allows you to store all your contacts in one place.
 
 ## Tecnologies
 
